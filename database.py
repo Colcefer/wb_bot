@@ -131,7 +131,7 @@ class Database:
                                supplier_article, nm_id, barcode, category, subject, brand, tech_size, income_id,
                                is_supply, is_realization, total_price, discount_percent, spp, payment_sale_amount,
                                for_pay, finished_price, price_with_disc, sale_id, order_type, sticker, g_number, srid)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (sale.date, sale.last_change_date, sale.warehouse_name, sale.country_name, sale.oblast_okrug_name,
               sale.region_name, sale.supplier_article, sale.nm_id, sale.barcode, sale.category, sale.subject,
               sale.brand, sale.tech_size, sale.income_id, sale.is_supply, sale.is_realization, sale.total_price,

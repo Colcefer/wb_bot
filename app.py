@@ -38,5 +38,5 @@ def sales():
     return render_template('sales.html')
 
 if __name__ == "__main__":
-    fetch_data_main()
+    #fetch_data_main()
     app.run(debug=True, port=8080)

@@ -9,7 +9,7 @@ def fetch_data(api_url, headers):
 
 def main():
     headers = {
-        'Authorization': 'Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6IjIwMjQwNTA2djEiLCJ0eXAiOiJKV1QifQ.eyJlbnQiOjEsImV4cCI6MTczNDM5MzU0NiwiaWQiOiJiNDIzNzAyNi1hZDlmLTQ5ODAtODc3Ni1kMTNmYTU5NTgxZmIiLCJpaWQiOjEwNTc4ODU5NCwib2lkIjoxMjI2MjExLCJzIjoxMDczNzQ1OTE4LCJzaWQiOiJlZDM0MWMwOS0xNzFiLTQ3OWUtODM1NC0wNjk4ZjU3MzJhNmUiLCJ0IjpmYWxzZSwidWlkIjoxMDU3ODg1OTR9.Q6M2rBUOHQI1WpUWiNnnxoIk6oCAgx5HurWQST5H8XaALNJIEjQwzNB38bpfL2rIv5q8K4nXzI7FmHc8Pexkcg'
+        'Authorization': 'Bearer '
     }
 
     stocks_url = "https://statistics-api.wildberries.ru/api/v1/supplier/stocks?dateFrom=2023-06-20T00:00:00"
@@ -18,7 +18,7 @@ def main():
 
     stocks_data = fetch_data(stocks_url, headers)
     orders_data = fetch_data(orders_url, headers)
-    #sales_data = fetch_data(sales_url, headers)
+    sales_data = fetch_data(sales_url, headers)
 
     db = Database()
 
@@ -77,38 +77,38 @@ def main():
         )
         db.insert_order(order)
 
-    # for item in sales_data:
-    #     sale = Sale(
-    #         date=item["date"],
-    #         last_change_date=item["lastChangeDate"],
-    #         warehouse_name=item["warehouseName"],
-    #         country_name=item["countryName"],
-    #         oblast_okrug_name=item["oblastOkrugName"],
-    #         region_name=item["regionName"],
-    #         supplier_article=item["supplierArticle"],
-    #         nm_id=item["nmId"],
-    #         barcode=item["barcode"],
-    #         category=item["category"],
-    #         subject=item["subject"],
-    #         brand=item["brand"],
-    #         tech_size=item["techSize"],
-    #         income_id=item["incomeID"],
-    #         is_supply=item["isSupply"],
-    #         is_realization=item["isRealization"],
-    #         total_price=item["totalPrice"],
-    #         discount_percent=item["discountPercent"],
-    #         spp=item["spp"],
-    #         payment_sale_amount=item["paymentSaleAmount"],
-    #         for_pay=item["forPay"],
-    #         finished_price=item["finishedPrice"],
-    #         price_with_disc=item["priceWithDisc"],
-    #         sale_id=item["saleID"],
-    #         order_type=item["orderType"],
-    #         sticker=item["sticker"],
-    #         g_number=item["gNumber"],
-    #         srid=item["srid"]
-    #     )
-    #     db.insert_sale(sale)
+    for item in sales_data:
+        sale = Sale(
+            date=item["date"],
+            last_change_date=item["lastChangeDate"],
+            warehouse_name=item["warehouseName"],
+            country_name=item["countryName"],
+            oblast_okrug_name=item["oblastOkrugName"],
+            region_name=item["regionName"],
+            supplier_article=item["supplierArticle"],
+            nm_id=item["nmId"],
+            barcode=item["barcode"],
+            category=item["category"],
+            subject=item["subject"],
+            brand=item["brand"],
+            tech_size=item["techSize"],
+            income_id=item["incomeID"],
+            is_supply=item["isSupply"],
+            is_realization=item["isRealization"],
+            total_price=item["totalPrice"],
+            discount_percent=item["discountPercent"],
+            spp=item["spp"],
+            payment_sale_amount=item["paymentSaleAmount"],
+            for_pay=item["forPay"],
+            finished_price=item["finishedPrice"],
+            price_with_disc=item["priceWithDisc"],
+            sale_id=item["saleID"],
+            order_type=item["orderType"],
+            sticker=item["sticker"],
+            g_number=item["gNumber"],
+            srid=item["srid"]
+        )
+        db.insert_sale(sale)
 
     db.close()
 

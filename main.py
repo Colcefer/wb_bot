@@ -1,30 +1,28 @@
 import requests
-from models import StockItem
+from models import StockItem, Order, Sale
 from database import Database
 
+def fetch_data(api_url, headers):
+    response = requests.get(api_url, headers=headers)
+    response.raise_for_status()
+    return response.json()
 
-def fetch_data(api_url):
-    import requests
-
-    payload = {}
+def main():
     headers = {
         'Authorization': ''
     }
 
-    response = requests.request("GET", api_url, headers=headers, data=payload)
+    stocks_url = "https://statistics-api.wildberries.ru/api/v1/supplier/stocks?dateFrom=2023-06-20T00:00:00"
+    orders_url = "https://statistics-api.wildberries.ru/api/v1/supplier/orders?dateFrom=2023-06-20T00:00:00"
+    sales_url = "https://statistics-api.wildberries.ru/api/v1/supplier/sales?dateFrom=2023-06-20T00:00:00"
 
-    return response.json()
-
-
-def main():
-    api_url = "https://statistics-api.wildberries.ru/api/v1/supplier/stocks?dateFrom=2023-06-20T00:00:00"
-    data = fetch_data(api_url)
-    api_url = "https://statistics-api.wildberries.ru/api/v1/supplier/orders"
-    orders = fetch_data(api_url)
+    stocks_data = fetch_data(stocks_url, headers)
+    orders_data = fetch_data(orders_url, headers)
+    sales_data = fetch_data(sales_url, headers)
 
     db = Database()
 
-    for item in data:
+    for item in stocks_data:
         stock_item = StockItem(
             last_change_date=item["lastChangeDate"],
             warehouse_name=item["warehouseName"],
@@ -47,8 +45,72 @@ def main():
         )
         db.insert_stock_item(stock_item)
 
-    db.close()
+    for item in orders_data:
+        order = Order(
+            date=item["date"],
+            last_change_date=item["lastChangeDate"],
+            warehouse_name=item["warehouseName"],
+            country_name=item["countryName"],
+            oblast_okrug_name=item["oblastOkrugName"],
+            region_name=item["regionName"],
+            supplier_article=item["supplierArticle"],
+            nm_id=item["nmId"],
+            barcode=item["barcode"],
+            category=item["category"],
+            subject=item["subject"],
+            brand=item["brand"],
+            tech_size=item["techSize"],
+            income_id=item["incomeID"],
+            is_supply=item["isSupply"],
+            is_realization=item["isRealization"],
+            total_price=item["totalPrice"],
+            discount_percent=item["discountPercent"],
+            spp=item["spp"],
+            finished_price=item["finishedPrice"],
+            price_with_disc=item["priceWithDisc"],
+            is_cancel=item["isCancel"],
+            cancel_date=item["cancelDate"],
+            order_type=item["orderType"],
+            sticker=item["sticker"],
+            g_number=item["gNumber"],
+            srid=item["srid"]
+        )
+        db.insert_order(order)
 
+    for item in sales_data:
+        sale = Sale(
+            date=item["date"],
+            last_change_date=item["lastChangeDate"],
+            warehouse_name=item["warehouseName"],
+            country_name=item["countryName"],
+            oblast_okrug_name=item["oblastOkrugName"],
+            region_name=item["regionName"],
+            supplier_article=item["supplierArticle"],
+            nm_id=item["nmId"],
+            barcode=item["barcode"],
+            category=item["category"],
+            subject=item["subject"],
+            brand=item["brand"],
+            tech_size=item["techSize"],
+            income_id=item["incomeID"],
+            is_supply=item["isSupply"],
+            is_realization=item["isRealization"],
+            total_price=item["totalPrice"],
+            discount_percent=item["discountPercent"],
+            spp=item["spp"],
+            payment_sale_amount=item["paymentSaleAmount"],
+            for_pay=item["forPay"],
+            finished_price=item["finishedPrice"],
+            price_with_disc=item["priceWithDisc"],
+            sale_id=item["saleID"],
+            order_type=item["orderType"],
+            sticker=item["sticker"],
+            g_number=item["gNumber"],
+            srid=item["srid"]
+        )
+        db.insert_sale(sale)
+
+    db.close()
 
 if __name__ == "__main__":
     main()
