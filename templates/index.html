@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Wildberries Stocks</h1>
+<table id="stocks-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Last Change Date</th>
+            <th>Warehouse Name</th>
+            <th>Supplier Article</th>
+            <th>NM ID</th>
+            <th>Barcode</th>
+            <th>Quantity</th>
+            <th>In Way to Client</th>
+            <th>In Way from Client</th>
+            <th>Quantity Full</th>
+            <th>Category</th>
+            <th>Subject</th>
+            <th>Brand</th>
+            <th>Tech Size</th>
+            <th>Price</th>
+            <th>Discount</th>
+            <th>Is Supply</th>
+            <th>Is Realization</th>
+            <th>SC Code</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('/api/stocks')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('stocks-table').getElementsByTagName('tbody')[0];
+                data.forEach(item => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = item[0];
+                    row.insertCell(1).textContent = item[1];
+                    row.insertCell(2).textContent = item[2];
+                    row.insertCell(3).textContent = item[3];
+                    row.insertCell(4).textContent = item[4];
+                    row.insertCell(5).textContent = item[5];
+                    row.insertCell(6).textContent = item[6];
+                    row.insertCell(7).textContent = item[7];
+                    row.insertCell(8).textContent = item[8];
+                    row.insertCell(9).textContent = item[9];
+                    row.insertCell(10).textContent = item[10];
+                    row.insertCell(11).textContent = item[11];
+                    row.insertCell(12).textContent = item[12];
+                    row.insertCell(13).textContent = item[13];
+                    row.insertCell(14).textContent = item[14];
+                    row.insertCell(15).textContent = item[15];
+                    row.insertCell(16).textContent = item[16];
+                    row.insertCell(17).textContent = item[17];
+                    row.insertCell(18).textContent = item[18];
+                });
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Wildberries Orders</h1>
+<table id="orders-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Last Change Date</th>
+            <th>Warehouse Name</th>
+            <th>Country Name</th>
+            <th>Oblast Okrug Name</th>
+            <th>Region Name</th>
+            <th>Supplier Article</th>
+            <th>NM ID</th>
+            <th>Barcode</th>
+            <th>Category</th>
+            <th>Subject</th>
+            <th>Brand</th>
+            <th>Tech Size</th>
+            <th>Income ID</th>
+            <th>Is Supply</th>
+            <th>Is Realization</th>
+            <th>Total Price</th>
+            <th>Discount Percent</th>
+            <th>SPP</th>
+            <th>Finished Price</th>
+            <th>Price With Disc</th>
+            <th>Is Cancel</th>
+            <th>Cancel Date</th>
+            <th>Order Type</th>
+            <th>Sticker</th>
+            <th>G Number</th>
+            <th>SRID</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('/api/orders')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('orders-table').getElementsByTagName('tbody')[0];
+                data.forEach(item => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = item[0];  // ID
+                    row.insertCell(1).textContent = item[1];  // Date
+                    row.insertCell(2).textContent = item[2];  // Last Change Date
+                    row.insertCell(3).textContent = item[3];  // Warehouse Name
+                    row.insertCell(4).textContent = item[4];  // Country Name
+                    row.insertCell(5).textContent = item[5];  // Oblast Okrug Name
+                    row.insertCell(6).textContent = item[6];  // Region Name
+                    row.insertCell(7).textContent = item[7];  // Supplier Article
+                    row.insertCell(8).textContent = item[8];  // NM ID
+                    row.insertCell(9).textContent = item[9];  // Barcode
+                    row.insertCell(10).textContent = item[10];  // Category
+                    row.insertCell(11).textContent = item[11];  // Subject
+                    row.insertCell(12).textContent = item[12];  // Brand
+                    row.insertCell(13).textContent = item[13];  // Tech Size
+                    row.insertCell(14).textContent = item[14];  // Income ID
+                    row.insertCell(15).textContent = item[15];  // Is Supply
+                    row.insertCell(16).textContent = item[16];  // Is Realization
+                    row.insertCell(17).textContent = item[17];  // Total Price
+                    row.insertCell(18).textContent = item[18];  // Discount Percent
+                    row.insertCell(19).textContent = item[19];  // SPP
+                    row.insertCell(20).textContent = item[20];  // Finished Price
+                    row.insertCell(21).textContent = item[21];  // Price With Disc
+                    row.insertCell(22).textContent = item[22];  // Is Cancel
+                    row.insertCell(23).textContent = item[23];  // Cancel Date
+                    row.insertCell(24).textContent = item[24];  // Order Type
+                    row.insertCell(25).textContent = item[25];  // Sticker
+                    row.insertCell(26).textContent = item[26];  // G Number
+                    row.insertCell(27).textContent = item[27];  // SRID
+                });
+            });
+    });
+</script>
+{% endblock %}
