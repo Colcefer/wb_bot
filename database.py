@@ -148,8 +148,44 @@ class Database:
         return self.cursor.fetchall()
 
     def get_all_sales(self):
-        self.cursor.execute('SELECT * FROM sales')
-        return self.cursor.fetchall()
+        query = "SELECT id, date, last_change_date, warehouse_name, country_name, oblast_okrug_name, region_name, supplier_article, nm_id, barcode, category, subject, brand, tech_size, income_id, is_supply, is_realization, total_price, discount_percent, spp, payment_sale_amount, for_pay, finished_price, price_with_disc, sale_id, order_type, sticker, g_number, srid FROM sales"
+        self.cursor.execute(query)
+        rows = self.cursor.fetchall()
+        sales = [
+            {
+                'id': row[0],
+                'date': row[1],
+                'last_change_date': row[2],
+                'warehouse_name': row[3],
+                'country_name': row[4],
+                'oblast_okrug_name': row[5],
+                'region_name': row[6],
+                'supplier_article': row[7],
+                'nm_id': row[8],
+                'barcode': row[9],
+                'category': row[10],
+                'subject': row[11],
+                'brand': row[12],
+                'tech_size': row[13],
+                'income_id': row[14],
+                'is_supply': row[15],
+                'is_realization': row[16],
+                'total_price': row[17],
+                'discount_percent': row[18],
+                'spp': row[19],
+                'payment_sale_amount': row[20],
+                'for_pay': row[21],
+                'finished_price': row[22],
+                'price_with_disc': row[23],
+                'sale_id': row[24],
+                'order_type': row[25],
+                'sticker': row[26],
+                'g_number': row[27],
+                'srid': row[28]
+            }
+            for row in rows
+        ]
+        return sales
 
     def close(self):
         self.connection.close()

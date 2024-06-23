@@ -1,6 +1,6 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from database import Database
-from fetch_data import main as fetch_data_main
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -18,11 +18,29 @@ def get_orders():
     db.close()
     return jsonify(orders)
 
+
+def filter_sales_by_date(sales, start_date, end_date):
+    if start_date:
+        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        sales = [sale for sale in sales if datetime.strptime(sale['date'], '%Y-%m-%dT%H:%M:%S').date() >= start_date]
+    if end_date:
+        end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+        sales = [sale for sale in sales if datetime.strptime(sale['date'], '%Y-%m-%dT%H:%M:%S').date() <= end_date]
+    return sales
+
+
 @app.route('/api/sales', methods=['GET'])
 def get_sales():
     db = Database()
     sales = db.get_all_sales()
     db.close()
+
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    if start_date or end_date:
+        sales = filter_sales_by_date(sales, start_date, end_date)
+
     return jsonify(sales)
 
 @app.route('/')
@@ -38,5 +56,4 @@ def sales():
     return render_template('sales.html')
 
 if __name__ == "__main__":
-    #fetch_data_main()
     app.run(debug=True, port=8080)

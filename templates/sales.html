@@ -2,6 +2,15 @@
 
 {% block content %}
 <h1>Wildberries Sales</h1>
+
+<!-- Date Filter Inputs -->
+<label for="start-date">Start Date:</label>
+<input type="date" id="start-date" name="start-date">
+<label for="end-date">End Date:</label>
+<input type="date" id="end-date" name="end-date">
+<button id="filter-button">Filter</button>
+<button id="reset-button">Reset</button>
+
 <table id="sales-table">
     <thead>
         <tr>
@@ -41,43 +50,66 @@
 </table>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        fetch('/api/sales')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('sales-table').getElementsByTagName('tbody')[0];
-                data.forEach(item => {
-                    const row = tableBody.insertRow();
-                    row.insertCell(0).textContent = item[0];  // ID
-                    row.insertCell(1).textContent = item[1];  // Date
-                    row.insertCell(2).textContent = item[2];  // Last Change Date
-                    row.insertCell(3).textContent = item[3];  // Warehouse Name
-                    row.insertCell(4).textContent = item[4];  // Country Name
-                    row.insertCell(5).textContent = item[5];  // Oblast Okrug Name
-                    row.insertCell(6).textContent = item[6];  // Region Name
-                    row.insertCell(7).textContent = item[7];  // Supplier Article
-                    row.insertCell(8).textContent = item[8];  // NM ID
-                    row.insertCell(9).textContent = item[9];  // Barcode
-                    row.insertCell(10).textContent = item[10]; // Category
-                    row.insertCell(11).textContent = item[11]; // Subject
-                    row.insertCell(12).textContent = item[12]; // Brand
-                    row.insertCell(13).textContent = item[13]; // Tech Size
-                    row.insertCell(14).textContent = item[14]; // Income ID
-                    row.insertCell(15).textContent = item[15]; // Is Supply
-                    row.insertCell(16).textContent = item[16]; // Is Realization
-                    row.insertCell(17).textContent = item[17]; // Total Price
-                    row.insertCell(18).textContent = item[18]; // Discount Percent
-                    row.insertCell(19).textContent = item[19]; // SPP
-                    row.insertCell(20).textContent = item[20]; // Payment Sale Amount
-                    row.insertCell(21).textContent = item[21]; // For Pay
-                    row.insertCell(22).textContent = item[22]; // Finished Price
-                    row.insertCell(23).textContent = item[23]; // Price With Disc
-                    row.insertCell(24).textContent = item[24]; // Sale ID
-                    row.insertCell(25).textContent = item[25]; // Order Type
-                    row.insertCell(26).textContent = item[26]; // Sticker
-                    row.insertCell(27).textContent = item[27]; // G Number
-                    row.insertCell(28).textContent = item[28]; // SRID
+        const fetchData = (startDate, endDate) => {
+            let url = '/api/sales';
+            if (startDate && endDate) {
+                url += `?start_date=${startDate}&end_date=${endDate}`;
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('sales-table').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';  // Clear existing table data
+                    data.forEach(item => {
+                        const row = tableBody.insertRow();
+                        row.insertCell(0).textContent = item.id;  // ID
+                        row.insertCell(1).textContent = item.date;  // Date
+                        row.insertCell(2).textContent = item.last_change_date;  // Last Change Date
+                        row.insertCell(3).textContent = item.warehouse_name;  // Warehouse Name
+                        row.insertCell(4).textContent = item.country_name;  // Country Name
+                        row.insertCell(5).textContent = item.oblast_okrug_name;  // Oblast Okrug Name
+                        row.insertCell(6).textContent = item.region_name;  // Region Name
+                        row.insertCell(7).textContent = item.supplier_article;  // Supplier Article
+                        row.insertCell(8).textContent = item.nm_id;  // NM ID
+                        row.insertCell(9).textContent = item.barcode;  // Barcode
+                        row.insertCell(10).textContent = item.category; // Category
+                        row.insertCell(11).textContent = item.subject; // Subject
+                        row.insertCell(12).textContent = item.brand; // Brand
+                        row.insertCell(13).textContent = item.tech_size; // Tech Size
+                        row.insertCell(14).textContent = item.income_id; // Income ID
+                        row.insertCell(15).textContent = item.is_supply; // Is Supply
+                        row.insertCell(16).textContent = item.is_realization; // Is Realization
+                        row.insertCell(17).textContent = item.total_price; // Total Price
+                        row.insertCell(18).textContent = item.discount_percent; // Discount Percent
+                        row.insertCell(19).textContent = item.spp; // SPP
+                        row.insertCell(20).textContent = item.payment_sale_amount; // Payment Sale Amount
+                        row.insertCell(21).textContent = item.for_pay; // For Pay
+                        row.insertCell(22).textContent = item.finished_price; // Finished Price
+                        row.insertCell(23).textContent = item.price_with_disc; // Price With Disc
+                        row.insertCell(24).textContent = item.sale_id; // Sale ID
+                        row.insertCell(25).textContent = item.order_type; // Order Type
+                        row.insertCell(26).textContent = item.sticker; // Sticker
+                        row.insertCell(27).textContent = item.g_number; // G Number
+                        row.insertCell(28).textContent = item.srid; // SRID
+                    });
                 });
-            });
+        };
+
+        document.getElementById('filter-button').addEventListener('click', () => {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            fetchData(startDate, endDate);
+        });
+
+        document.getElementById('reset-button').addEventListener('click', () => {
+            document.getElementById('start-date').value = '';
+            document.getElementById('end-date').value = '';
+            fetchData();
+        });
+
+        // Initial fetch to populate table
+        fetchData();
     });
 </script>
 {% endblock %}

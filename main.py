@@ -9,7 +9,11 @@ def fetch_data(api_url, headers):
 
 def main():
     headers = {
-        'Authorization': ''
+        'Authorization': 'Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6IjIwMjQwNTA2djEiLCJ0eXAiOiJKV1QifQ'
+                         '.eyJlbnQiOjEsImV4cCI6MTczNDM5MzU0NiwiaWQiOiJiNDIzNzAyNi1hZDlmLTQ5ODAtODc3Ni1kMTNm'
+                         'YTU5NTgxZmIiLCJpaWQiOjEwNTc4ODU5NCwib2lkIjoxMjI2MjExLCJzIjoxMDczNzQ1OTE4LCJzaWQiOiJl'
+                         'ZDM0MWMwOS0xNzFiLTQ3OWUtODM1NC0wNjk4ZjU3MzJhNmUiLCJ0IjpmYWxzZSwidWlkIjoxMDU3ODg1OTR9.Q'
+                         '6M2rBUOHQI1WpUWiNnnxoIk6oCAgx5HurWQST5H8XaALNJIEjQwzNB38bpfL2rIv5q8K4nXzI7FmHc8Pexkcg'
     }
 
     stocks_url = "https://statistics-api.wildberries.ru/api/v1/supplier/stocks?dateFrom=2023-06-20T00:00:00"
